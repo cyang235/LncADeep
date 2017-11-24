@@ -1,0 +1,101 @@
+#########################################################################
+# File Name:configure.sh
+# Author:Cheng Yang
+# Description: configure LncADeep
+#########################################################################
+
+#!/bin/bash
+#set -x
+
+
+# 1. Pre-requisite for LncADeep: lncRNA identification:
+# ---------------------------
+
+echo "Pre-requisite for lncRNA identification:"
+echo "1. Python, version >= 2.7.6"
+echo "2. numpy, version >= 1.8.2"
+echo "3. HMMER package: can be downloaded from http://hmmer.org/download.html"
+echo "-------------------------------------------"
+
+
+# 2. Pre-requisite for LncADeep: predict lncRNA-protein interactions and conduct function annotations:
+# ---------------------------
+
+echo "Pre-requisite for lncRNA functional annotations:"
+echo "1. Python 2, version >= 2.7.6"
+echo "2. numpy, version >= 1.8.2"
+echo "3. theano, version >= 0.8.2"
+echo "4. pandas, version >= 0.18.0"
+echo "5. Keras, version 1.2.2 (https://github.com/fchollet/keras). Please install Keras according to the online installation manual."
+echo "6. MCL package: https://micans.org/mcl/"
+echo "7. iGraph R package (optional): http://igraph.org/r/"
+echo "-------------------------------------------"
+
+
+# 3. pre-defined variables
+# ------------------------
+
+workdir=`pwd`
+readonly workdir
+echo "The working directory is $workdir"
+
+
+# 4. Install HMMER 3.1b2
+# ----------------------
+
+echo "Check HMMER"
+
+HMMERdir=$workdir/LncADeep_lncRNA/src
+HMMERexe=$workdir/LncADeep_lncRNA/src/hmmsearch
+chmod +x $HMMERexe
+
+echo "export PATH=\$PATH:$HMMERdir" >> $HOME/.bash_profile
+
+if [ ! -f "$HMMERexe" ]; then
+    cd $HMMERdir
+    wget http://eddylab.org/software/hmmer3/3.1b2/hmmer-3.1b2-linux-intel-x86_64.tar.gz
+    hmm_target_file="hmmer-3.1b2-linux-intel-x86_64.tar.gz"
+    hmm_target_dir="hmmer-3.1b2-linux-intel-x86_64"
+
+    tar xzvf $hmm_target_file -C $HMMERdir
+    hmm_bin_dir=$HMMERdir/$hmm_target_dir/binaries
+    echo $hmm_bin_dir
+    echo "export PATH=\$PATH:$hmm_bin_dir" >> $HOME/.bash_profile
+fi
+
+
+
+# 5. Check Pfam database
+# -------------------------
+
+echo "Check Pfam 29.0 database"
+
+pfam_dir=$workdir/LncADeep_lncRNA/src
+cd $pfam_dir
+
+pfam_file="Pfam-A.hmm.gz"
+pfam_target="$pfam_dir"/"Pfam-A.hmm"
+
+if [ ! -f "$pfam_target" ]; then
+    cd $pfam_dir
+    wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam29.0/Pfam-A.hmm.gz
+    gzip -d $pfam_file
+fi
+
+
+# 6. Add directory to environment path 
+# -------------------------
+
+LncADeep_src_dir=$workdir/LncADeep_anno/src
+chmod +x -R $LncADeep_src_dir 
+echo "export PATH=\$PATH:$LncADeep_src_dir" >> $HOME/.bash_profile
+
+
+# 7. Add LncADeep to environment path
+# ------------------------------------------
+
+cd $workdir
+echo "export PATH=\$PATH:$workdir" >> $HOME/.bash_profile
+
+echo "Please run the following command to complete installation:"
+echo "source \$HOME/.bash_profile"

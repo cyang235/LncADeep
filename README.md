@@ -313,7 +313,7 @@ The files for example are stored at directory `/path to LncADeep/data`
 
 Citation
 --------
-[Cheng Yang, Longshu Yang, Man Zhou, Haoling Xie, Chengjiu Zhang, May D. Wang, and Huaiqiu Zhu. LncADeep: An ab initio lncRNA identification and annotation tool based on deep learning. (submitted, 2017)](http://cqb.pku.edu.cn/ZhuLab/LncADeep/)
+[Cheng Yang, Longshu Yang, Man Zhou, Haoling Xie, Chengjiu Zhang, May D Wang, Huaiqiu Zhu; LncADeep: An ab initio lncRNA identification and functional annotation tool based on deep learning, Bioinformatics, 2018, bty428](https://doi.org/10.1093/bioinformatics/bty428)
 
 
 Contact
